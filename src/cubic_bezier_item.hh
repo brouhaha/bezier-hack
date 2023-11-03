@@ -4,21 +4,24 @@
 #ifndef CUBIC_BEZIER_ITEM_HH
 #define CUBIC_BEZIER_ITEM_HH
 
-#include <QGraphicsPathItem>
+#include <QGraphicsItem>
 
 class CubicBezier;
 
-class CubicBezierItem: public QGraphicsPathItem
+class CubicBezierItem: public QGraphicsItem
 {
-  Q_OBJECT
-
 public:
   CubicBezierItem(CubicBezier& cb,
 		  QGraphicsItem* parent = nullptr);
 
+  QRectF boundingRect() const override;
+
+  void paint(QPainter* painter,
+	     const QStyleOptionGraphicsItem* option,
+	     QWidget* widget) override;
+
 private:
   CubicBezier& cb;
-  QPainterPath path;
 };
 
 #endif // CUBIC_BEZIER_ITEM_HH

@@ -13,13 +13,13 @@ CubicBezierView::CubicBezierView(CubicBezier& cb,
 				 QWidget* parent):
   QGraphicsView(new QGraphicsScene(-135.0, -135.0, 270.0, 270.0, parent), parent),
   cb(cb),
-  //cbi(new CubicBezierItem(cb),
-  ai(new AxesItem(-100.0, 100.0, 20.0))
+  ai(new AxesItem(-100.0, 100.0, 20.0)),
+  cbi(new CubicBezierItem(cb, ai))
 {
   setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
   scene()->addItem(ai);
-  //scene()->addItem(cbi);
+  scene()->addItem(cbi);
 
   for (int i = 0; i < 4; i++)
   {

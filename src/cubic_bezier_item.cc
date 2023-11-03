@@ -2,46 +2,35 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
 #include <QPainter>
+#include <QPainterPath>
 
+#include "cubic_bezier.hh"
 #include "cubic_bezier_item.hh"
-#include "cubic_bezier_view.hh"
 
-CubicBezierView::CubicBezierView(CubicBezier& cb,
-				 QWidget* parent):
-  QGraphicsView(new QGraphicsScene, parent),
-  cb(cb),
-  cbi(new CubicBezierItem(cb)
+CubicBezierItem::CubicBezierItem(CubicBezier& cb,
+				 QGraphicsItem* parent):
+  QGraphicsItem(parent),
+  cb(cb)
 {
-  setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-
-  scene()->addItem(cbi);
 }
 
-QSize CubicBezierView::sizeHint() const
+QRectF CubicBezierItem::boundingRect() const
 {
-  return QSize(400, 400);
+  return QRectF(-135.0, -135.0, 270.0, 270.0);  // XXX compute this!
 }
 
-void CubicBezierView::zoomToFit()
+void CubicBezierItem::paint(QPainter* painter,
+			    const QStyleOptionGraphicsItem* option,
+			    QWidget* widget)
 {
-  fitInView(scene()->scenRect(), Qt::KeepAspectRatio);
+  QColor black(0, 0, 0);
+  painter->setPen(black);
+  painter->setBrush(Qt::NoBrush);  // don't want fill
+
+  QPainterPath cb_path;
+  cb_path.moveTo(cb.p[0].x, cb.p[0].y);
+  cb_path.cubicTo(cb.p[1].x, cb.p[1].y,
+		  cb.p[2].x, cb.p[2].y,
+		  cb.p[3].x, cb.p[3].y);
+  painter->drawPath(cb_path);
 }
-
-void CubicBezierView::resizeEvent(QResizeEvent *event)
-{
-  zoomToFit();
-  QGraphicsView::resizeEvent(event);
-}
-
-void CubicBezierView::paintEvent(QPaintEvent *event)
-{
-  static bool first_time = true;
-  if (first_time)
-  {
-    first_time = false;
-    zoomToFit();
-  }
-  QGraphicsView::paintEvent(event);
-
-
-

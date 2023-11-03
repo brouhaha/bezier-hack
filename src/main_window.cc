@@ -16,10 +16,10 @@
 #include "main_window.hh"
 
 MainWindow::MainWindow():
-  cb(Point(-60.0, -60.0),
+  cb(Point(-60.0, -40.0),
      Point(-60.0, -80.0),
-     Point( 60.0,  60.0),
-     Point( 60.0,  80.0)),
+     Point( 60.0,  80.0),
+     Point( 60.0,  40.0)),
   central_widget(new CentralWidget(cb,
 				   this)) // QWidget* parent
 {

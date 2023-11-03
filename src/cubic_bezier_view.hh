@@ -7,7 +7,7 @@
 #include <QGraphicsView>
 
 class CubicBezier;
-//class CubicBezierItem;
+class CubicBezierItem;
 class CubicBezierPointItem;
 class AxesItem;
 
@@ -35,8 +35,8 @@ protected:
 
 private:
   CubicBezier& cb;
-  //CubicBezierItem* cbi;
   AxesItem* ai;
+  CubicBezierItem* cbi;
   CubicBezierPointItem* pi[4];
 };
 
