@@ -1,0 +1,5 @@
+*~
+.sconsign.dblite
+cubic-bezier-bounding-box.conf
+build
+__pycache__
