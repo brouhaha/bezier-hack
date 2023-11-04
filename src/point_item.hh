@@ -5,9 +5,10 @@
 #define POINT_ITEM_HH
 
 #include <QColor>
-#include <QGraphicsEllipseItem>
 
-class PointItem: public QGraphicsEllipseItem
+#include "graphics_path_object.hh"
+
+class PointItem: public GraphicsPathObject
 {
 public:
   PointItem(QGraphicsItem* parent = nullptr);

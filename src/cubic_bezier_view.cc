@@ -29,8 +29,6 @@ void CubicBezierView::dump_coordinates()
 {
   for (int i = 0; i < 4; i++)
   {
-    QRectF r = pi[i].rect();
-    std::cout << "p" << i <<": (" << r.x() << ", " << r.y() << "), width " << r.width() << ", hieght " << r.height() << "\n";
     QPointF pos = pi[i].pos();
     std::cout << "p" << i <<" pos: (" << pos.x() << ", " << pos.y() << ")\n";
   }

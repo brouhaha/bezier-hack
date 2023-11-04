@@ -4,11 +4,11 @@
 #ifndef CUBIC_BEZIER_ITEM_HH
 #define CUBIC_BEZIER_ITEM_HH
 
-#include <QGraphicsItem>
+#include "graphics_path_object.hh"
 
 class CubicBezier;
 
-class CubicBezierItem: public QGraphicsItem
+class CubicBezierItem: public GraphicsPathObject
 {
 public:
   CubicBezierItem(CubicBezier& cb,

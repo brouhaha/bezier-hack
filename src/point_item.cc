@@ -12,19 +12,21 @@ static constexpr double default_diamter = 4.0;
 
 
 PointItem::PointItem(QGraphicsItem* parent):
-  QGraphicsEllipseItem(parent)
+  GraphicsPathObject(parent)
 {
   setPen(QPen(Qt::NoPen));
   set_diameter(default_diamter);
   set_color(QColor(Qt::black));
+
   setFlag(QGraphicsItem::ItemIsMovable);
   setAcceptDrops(true);
 }
 
 void PointItem::set_diameter(double diameter)
 {
-  setRect(-diameter/2.0, -diameter/2.0,
-	  diameter, diameter);
+  QPainterPath pp;
+  pp.addEllipse(QPointF(), diameter/2.0, diameter/2.0);
+  setPath(pp);
 }
 
 void PointItem::set_color(QColor color)
@@ -34,7 +36,7 @@ void PointItem::set_color(QColor color)
 
 void PointItem::on_position_changed(double x, double y)
 {
-  std::cout << "on_position_changed(" << x << ", " << y << ")\n";
+  std::cout << "PointItem::on_position_changed(" << x << ", " << y << ")\n";
   setPos(x, y);
 }
 

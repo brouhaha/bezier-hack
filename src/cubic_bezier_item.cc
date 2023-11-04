@@ -9,7 +9,7 @@
 
 CubicBezierItem::CubicBezierItem(CubicBezier& cb,
 				 QGraphicsItem* parent):
-  QGraphicsItem(parent),
+  GraphicsPathObject(parent),
   cb(cb)
 {
 }
