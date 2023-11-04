@@ -42,12 +42,31 @@ SOURCES = ['main.cc',
 executable = env.Program('cubic-bezier-bounding-box', SOURCES)[0]
 
 if env['target'] in ('win32', 'win64'):
-    wxs_template = env.File('cubic-bezier-bounding_box.wxst')
+    wxs_template = env.File('cubic-bezier-bounding-box.wxst')
 
     dll_names = ['Qt6Core',
                  'Qt6Gui',
                  'Qt6Widgets',
+		 'qwindows',
                  'libstdc++-6',
+		 'libwinpthread-1',
+		 'libcrypto-3-x64',
+		 'icui18n72',
+		 'icuuc72',
+		 'icudata72',
+		 'iconv',
+		 'libpcre2-8-0',
+		 'libpcre2-16-0',
+		 'zlib1',
+		 'libssp-0',
+		 'libfontconfig-1',
+		 'libfreetype-6',
+		 'libharfbuzz-0',
+		 'libpng16-16',
+		 'libexpat-1',
+		 'libbz2-1',
+		 'libglib-2.0-0',
+		 'libintl-8',
                  ]
 
     if env['target'] == 'win32':
@@ -56,6 +75,10 @@ if env['target'] in ('win32', 'win64'):
         dll_names.append('libgcc_s_seh-1')
 
     dlls = [find_file(dll_name + '.dll', env['DLLPATH']) for dll_name in dll_names]
+    for dll in dlls:
+        print(dll)
     files = [executable] + dlls
-    wxs = env.WXS('voyager-lcd.wxs', [wxs_template, files])
+    for file in files:
+    	print(file)
+    wxs = env.WXS('cubic-bezier-bounding-box.wxs', [wxs_template, files])
     env.MSI(wxs)
