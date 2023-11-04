@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include <QHBoxLayout>
+#include <QPushButton>
 #include <QHBoxLayout>
 
 #include "cubic_bezier.hh"
@@ -34,4 +35,9 @@ CentralWidget::CentralWidget(CubicBezier& cb,
 	  cbv, &CubicBezierView::on_cubic_bezier_changed);
   connect(cbv, &CubicBezierView::cubic_bezier_changed,
 	  cbp, &CubicBezierParams::on_cubic_bezier_changed);
+
+  QPushButton* dump_button = new QPushButton("dump", this);
+  vbox->addWidget(dump_button);
+  connect(dump_button, &QPushButton::pressed,
+	  cbv,         &CubicBezierView::dump_coordinates);
 }

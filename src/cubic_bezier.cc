@@ -68,6 +68,9 @@ CubicBezier::CubicBezier(Point p0, Point p1, Point p2, Point p3):
 
 Rect CubicBezier::get_bounding_box()
 {
+  // https://floris.briolas.nl/floris/2009/10/bounding-box-of-cubic-bezier/
+  // https://stackoverflow.com/questions/24809978/calculating-the-bounding-box-of-cubic-bezier-curve
+
   return BoundingBox(p[0], p[3]);  // XXX wrong
 }
 

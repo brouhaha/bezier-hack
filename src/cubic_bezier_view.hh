@@ -6,10 +6,10 @@
 
 #include <QGraphicsView>
 
-class CubicBezier;
-class CubicBezierItem;
-class CubicBezierPointItem;
-class AxesItem;
+#include "cubic_bezier.hh"
+#include "axes_item.hh"
+#include "point_item.hh"
+#include "cubic_bezier_item.hh"
 
 class CubicBezierView: public QGraphicsView
 {
@@ -25,6 +25,7 @@ public:
 
 public slots:
   void on_cubic_bezier_changed();  // received when the params values are edited
+  void dump_coordinates();
 
 signals:
   void cubic_bezier_changed();  // emitted when user drags handles
@@ -35,9 +36,9 @@ protected:
 
 private:
   CubicBezier& cb;
-  AxesItem* ai;
-  CubicBezierItem* cbi;
-  CubicBezierPointItem* pi[4];
+  AxesItem ai;
+  std::array<PointItem, 4> pi;
+  CubicBezierItem cbi;
 };
 
 #endif // CUBIC_BEZIER_VIEW_HH
