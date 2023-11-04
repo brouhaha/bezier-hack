@@ -1,8 +1,6 @@
 // Copyright 2023 Eric Smith
 // SPDX-License-Identifier: GPL-3.0-only
 
-#include <iostream>
-
 #include <QGraphicsSceneDragDropEvent>
 #include <QPen>
 
@@ -11,15 +9,29 @@
 static constexpr double default_diamter = 4.0;
 
 
-PointItem::PointItem(QGraphicsItem* parent):
-  GraphicsPathObject(parent)
+PointItem::PointItem(int point_id,
+		     QGraphicsItem* parent):
+  GraphicsPathObject(parent),
+  m_point_id(point_id)
 {
   setPen(QPen(Qt::NoPen));
   set_diameter(default_diamter);
   set_color(QColor(Qt::black));
 
   setFlag(QGraphicsItem::ItemIsMovable);
-  setAcceptDrops(true);
+
+  connect(this, &QGraphicsObject::xChanged,
+	  this, &PointItem::on_coordinate_changed);
+}
+
+int PointItem::point_id()
+{
+  return m_point_id;
+}
+
+void PointItem::set_point_id(int point_id)
+{
+  m_point_id = point_id;
 }
 
 void PointItem::set_diameter(double diameter)
@@ -36,18 +48,11 @@ void PointItem::set_color(QColor color)
 
 void PointItem::on_position_changed(double x, double y)
 {
-  std::cout << "PointItem::on_position_changed(" << x << ", " << y << ")\n";
   setPos(x, y);
 }
 
-void PointItem::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
+// for signals xChanged() and yChanged from superclass (QGraphicsObject)
+void PointItem::on_coordinate_changed()
 {
-  std::cout << "dragEnterEvent()\n";
-  event->setAccepted(true);
+  emit position_changed(m_point_id, x(), y());
 }
-
-void PointItem::dropEvent(QGraphicsSceneDragDropEvent *event)
-{
-  std::cout << "dragDropEvent()\n";
-}
-

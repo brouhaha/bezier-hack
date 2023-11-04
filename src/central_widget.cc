@@ -1,8 +1,6 @@
 // Copyright 2023 Eric Smith
 // SPDX-License-Identifier: GPL-3.0-only
 
-#include <iostream>
-
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QHBoxLayout>
@@ -35,9 +33,4 @@ CentralWidget::CentralWidget(CubicBezier& cb,
 	  cbv, &CubicBezierView::on_cubic_bezier_changed);
   connect(cbv, &CubicBezierView::cubic_bezier_changed,
 	  cbp, &CubicBezierParams::on_cubic_bezier_changed);
-
-  QPushButton* dump_button = new QPushButton("dump", this);
-  vbox->addWidget(dump_button);
-  connect(dump_button, &QPushButton::pressed,
-	  cbv,         &CubicBezierView::dump_coordinates);
 }

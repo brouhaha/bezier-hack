@@ -10,15 +10,14 @@ class CubicBezier;
 
 class CubicBezierItem: public GraphicsPathObject
 {
+  Q_OBJECT
+
 public:
   CubicBezierItem(CubicBezier& cb,
 		  QGraphicsItem* parent = nullptr);
 
-  QRectF boundingRect() const override;
-
-  void paint(QPainter* painter,
-	     const QStyleOptionGraphicsItem* option,
-	     QWidget* widget) override;
+public slots:
+  void on_cubic_bezier_changed();  // received when the params values are edited
 
 private:
   CubicBezier& cb;

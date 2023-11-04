@@ -23,12 +23,16 @@ public:
 
   QSize sizeHint() const override;
 
-public slots:
-  void on_cubic_bezier_changed();  // received when the params values are edited
-  void dump_coordinates();
-
 signals:
   void cubic_bezier_changed();  // emitted when user drags handles
+
+public slots:
+  void on_cubic_bezier_changed();  // received when the params values are edited
+
+private slots:
+  void on_point_position_changed(int point_id,
+				 double x,
+				 double y);
 
 protected:
   void resizeEvent(QResizeEvent *event) override;

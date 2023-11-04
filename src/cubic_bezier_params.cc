@@ -1,7 +1,7 @@
 // Copyright 2023 Eric Smith
 // SPDX-License-Identifier: GPL-3.0-only
 
-#include <format>
+#include <string>
 
 #include <QLabel>
 
@@ -19,7 +19,8 @@ CubicBezierParams::CubicBezierParams(CubicBezier& cb,
   layout->addWidget(new QLabel("y"), 0, 2);
   for (int i = 0; i < 4; i++)
   {
-    layout->addWidget(new QLabel(QString::fromStdString(std::format("p{}", i))), i+1, 0);
+    char name[3] = { 'p', '0'+i, '\0' };
+    layout->addWidget(new QLabel(name), i+1, 0);
     x_coord_le[i] = new DoubleLineEdit(cb.p[i].x, this);
     y_coord_le[i] = new DoubleLineEdit(cb.p[i].y, this);
     layout->addWidget(x_coord_le[i], i+1, 1);
@@ -34,8 +35,8 @@ CubicBezierParams::CubicBezierParams(CubicBezier& cb,
 
   for (int i = 0; i < 4; i++)
   {
-    x_coord_le[i]->setText(QString::fromStdString(std::format("{:g}", cb.p[i].x)));
-    y_coord_le[i]->setText(QString::fromStdString(std::format("{:g}", cb.p[i].y)));
+    x_coord_le[i]->setText(QString::fromStdString(std::to_string(cb.p[i].x)));
+    y_coord_le[i]->setText(QString::fromStdString(std::to_string(cb.p[i].y)));
   }
 }
 
@@ -45,12 +46,12 @@ void CubicBezierParams::on_cubic_bezier_changed()
   {
     if (cb.p[i].x != prev_cb.p[i].x)
     {
-      x_coord_le[i]->setText(QString::fromStdString(std::format("{:g}", cb.p[i].x)));
+      x_coord_le[i]->setText(QString::fromStdString(std::to_string(cb.p[i].x)));
       prev_cb.p[i].x = cb.p[i].x;
     }
     if (cb.p[i].y != prev_cb.p[i].y)
     {
-      y_coord_le[i]->setText(QString::fromStdString(std::format("{:g}", cb.p[i].y)));
+      y_coord_le[i]->setText(QString::fromStdString(std::to_string(cb.p[i].y)));
       prev_cb.p[i].y = cb.p[i].y;
     }
   }
@@ -58,7 +59,5 @@ void CubicBezierParams::on_cubic_bezier_changed()
 
 void CubicBezierParams::on_double_value_changed([[maybe_unused]] double value)
 {
-  std::cout << "CubicBezierParams recieved on_double_value_changed()\n";
-  std::cout << "CubicBezierParams emitting cubic_bezier_changed()\n";
   emit cubic_bezier_changed();
 }
