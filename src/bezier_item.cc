@@ -7,19 +7,19 @@
 #include <QPainterPath>
 
 #include "bezier.hh"
-#include "cubic_bezier_item.hh"
+#include "bezier_item.hh"
 
-CubicBezierItem::CubicBezierItem(Bezier& bezier,
-				 QGraphicsItem* parent):
+BezierItem::BezierItem(Bezier& bezier,
+		       QGraphicsItem* parent):
   GraphicsPathObject(parent),
   bezier(bezier)
 {
   setPen(QPen(Qt::black));
   setBrush(Qt::NoBrush);
-  on_cubic_bezier_changed();
+  on_bezier_changed();
 }
 
-void CubicBezierItem::on_cubic_bezier_changed()
+void BezierItem::on_bezier_changed()
 {
   QPainterPath pp;
 

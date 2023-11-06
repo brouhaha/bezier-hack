@@ -8,7 +8,7 @@
 
 #include "bezier.hh"
 
-class CubicBezierWidget;
+class BezierWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -37,7 +37,7 @@ protected:
 
 private:
   Bezier bezier;
-  CubicBezierWidget* cubic_bezier_widget;
+  BezierWidget* bezier_widget;
 
   QMenu* fileMenu;
   QMenu* editMenu;

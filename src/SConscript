@@ -28,22 +28,22 @@ env.EnableQt6Modules(['QtCore',
 SOURCES = ['main.cc',
 	   'bezier.cc',
            'main_window.cc',
-	   'cubic_bezier_widget.cc',
-	   'cubic_bezier_graph.cc',
+	   'bezier_widget.cc',
+	   'bezier_graph.cc',
 	   'axes_item.cc',
 	   'point_item.cc',
-	   'cubic_bezier_item.cc',
-	   'cubic_bezier_params.cc',
+	   'bezier_item.cc',
+	   'bezier_params.cc',
 	   'double_line_edit.cc',
 	   'graphics_path_object.cc',
 	   'polynomial.cc',
 	  ]
 
 
-executable = env.Program('cubic-bezier-bounding-box', SOURCES)[0]
+executable = env.Program('bezier-hack', SOURCES)[0]
 
 if env['target'] in ('win32', 'win64'):
-    wxs_template = env.File('cubic-bezier-bounding-box.wxst')
+    wxs_template = env.File('bezier-hack.wxst')
 
     dll_names = ['Qt6Core',
                  'Qt6Gui',
@@ -81,5 +81,5 @@ if env['target'] in ('win32', 'win64'):
     files = [executable] + dlls
     for file in files:
     	print(file)
-    wxs = env.WXS('cubic-bezier-bounding-box.wxs', [wxs_template, files])
+    wxs = env.WXS('bezier-hack.wxs', [wxs_template, files])
     env.MSI(wxs)

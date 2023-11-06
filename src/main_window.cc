@@ -9,7 +9,7 @@
 #include <QMessageBox>
 #include <QTextEdit>
 
-#include "cubic_bezier_widget.hh"
+#include "bezier_widget.hh"
 #include "main_window.hh"
 
 MainWindow::MainWindow():
@@ -17,10 +17,10 @@ MainWindow::MainWindow():
 	   Point(-60.0, -80.0),
 	   Point( 60.0,  80.0),
 	   Point( 60.0,  40.0) },
-  cubic_bezier_widget(new CubicBezierWidget(bezier,
-					    this)) // QWidget* parent
+  bezier_widget(new BezierWidget(bezier,
+				 this)) // QWidget* parent
 {
-  setCentralWidget(cubic_bezier_widget);
+  setCentralWidget(bezier_widget);
 
   create_file_menu();
   create_edit_menu();
@@ -33,7 +33,7 @@ void MainWindow::create_file_menu()
 {
   fileMenu = menuBar()->addMenu(tr("&File"));
 
-  QAction* aboutAction = fileMenu->addAction(tr("About cubic-bezier-bounding-box"));
+  QAction* aboutAction = fileMenu->addAction(tr("About bezier-bounding-box"));
   connect(aboutAction, &QAction::triggered,
 	  this,        &MainWindow::on_about);
 
@@ -81,10 +81,10 @@ void MainWindow::create_view_menu()
   view_graph_action->setCheckable(true);
   view_graph_action->setChecked(true);
   view_graph_action->setStatusTip(tr("Toggle viewing of the Bezier curve graphs"));
-  connect(view_graph_action,   &QAction::triggered,
-	  this,                &MainWindow::on_view_graph_changed);
-  connect(this,                &MainWindow::view_graph_changed,
-	  cubic_bezier_widget, &CubicBezierWidget::on_view_graph_changed);
+  connect(view_graph_action, &QAction::triggered,
+	  this,              &MainWindow::on_view_graph_changed);
+  connect(this,              &MainWindow::view_graph_changed,
+	  bezier_widget,     &BezierWidget::on_view_graph_changed);
 
   (void) viewMenu->addSeparator();
 
@@ -92,10 +92,10 @@ void MainWindow::create_view_menu()
   view_params_action->setCheckable(true);
   view_params_action->setChecked(true);
   view_params_action->setStatusTip(tr("Toggle viewing of the Bezier curve control point coordinates"));
-  connect(view_params_action,  &QAction::triggered,
-	  this,                &MainWindow::on_view_params_changed);
-  connect(this,                &MainWindow::view_params_changed,
-	  cubic_bezier_widget, &CubicBezierWidget::on_view_params_changed);
+  connect(view_params_action, &QAction::triggered,
+	  this,               &MainWindow::on_view_params_changed);
+  connect(this,               &MainWindow::view_params_changed,
+	  bezier_widget,      &BezierWidget::on_view_params_changed);
 }
 
 
@@ -119,8 +119,8 @@ void MainWindow::closeEvent(QCloseEvent* event)
 void MainWindow::on_about()
 {
   QMessageBox::about(this,
-		     tr("About cubic-bezier-bounding-box"),
-		     tr("A program to demonstrate computation of a bounding box for a cubic bezier curve."));
+		     tr("About bezier-bounding-box"),
+		     tr("A program to demonstrate computation of a bounding box for a bezier curve."));
 }
 
 

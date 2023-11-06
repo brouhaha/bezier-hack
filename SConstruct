@@ -1,7 +1,7 @@
 # Copyright 2023 Eric Smith
 # SPDX-License-Identifier: GPL-3.0-only
 
-conf_file = 'cubic-bezier-bounding-box.conf'
+conf_file = 'bezier-hack.conf'
 vars = Variables(conf_file, ARGUMENTS)
 vars.AddVariables(EnumVariable ('target',
                                 help = 'execution target platform',
