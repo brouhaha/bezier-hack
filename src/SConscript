@@ -26,16 +26,16 @@ env.EnableQt6Modules(['QtCore',
 		      'QtWidgets'])
 
 SOURCES = ['main.cc',
+	   'cubic_bezier.cc',
            'main_window.cc',
-	   'central_widget.cc',
+	   'cubic_bezier_widget.cc',
+	   'cubic_bezier_graph.cc',
 	   'axes_item.cc',
 	   'point_item.cc',
-	   'cubic_bezier_graph.cc',
 	   'cubic_bezier_item.cc',
 	   'cubic_bezier_params.cc',
 	   'double_line_edit.cc',
 	   'graphics_path_object.cc',
-	   'cubic_bezier.cc',
 	  ]
 
 

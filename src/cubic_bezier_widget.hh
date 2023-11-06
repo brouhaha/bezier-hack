@@ -21,9 +21,13 @@ public:
 		    QWidget* parent = nullptr,
 		    Qt::WindowFlags f = Qt::WindowFlags());
 
+public slots:
+  void on_view_graph_changed(bool visible);
+  void on_view_params_changed(bool visible);
+
 private:
   CubicBezier& cb;
-  CubicBezierParams *cbp;
+  CubicBezierParams* cbp;
   CubicBezierGraph* cbg;
 
   QHBoxLayout* hbox;

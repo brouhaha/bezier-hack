@@ -31,3 +31,15 @@ CubicBezierWidget::CubicBezierWidget(CubicBezier& cb,
   connect(cbg, &CubicBezierGraph::cubic_bezier_changed,
 	  cbp, &CubicBezierParams::on_cubic_bezier_changed);
 }
+
+void CubicBezierWidget::on_view_graph_changed(bool visible)
+{
+  std::cout << "CubicBezierWidget::on_view_graph_changed(" << visible << ")\n";
+  cbg->setVisible(visible);
+}
+
+void CubicBezierWidget::on_view_params_changed(bool visible)
+{
+  std::cout << "CubicBezierWidget::on_view_parameters_changed(" << visible << ")\n";
+  cbp->setVisible(visible);
+}

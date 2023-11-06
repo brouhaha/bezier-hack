@@ -17,23 +17,38 @@ class MainWindow : public QMainWindow
 public:
   MainWindow();
 
-protected:
-  void closeEvent(QCloseEvent* event) override;
+signals:
+  void view_graph_changed(bool visible);
+  void view_params_changed(bool visible);
 
 private slots:
-  void about();
+  void on_about();
 
-  void cut();
-  void copy();
-  void paste();
-  void selectAll();
+  void on_cut();
+  void on_copy();
+  void on_paste();
+  void on_select_all();
+
+  void on_view_graph_changed();
+  void on_view_params_changed();
+
+protected:
+  void closeEvent(QCloseEvent* event) override;
 
 private:
   CubicBezier cb;
   CubicBezierWidget* cubic_bezier_widget;
 
+  QMenu* fileMenu;
+  QMenu* editMenu;
+  QMenu* viewMenu;
+
+  QAction* view_graph_action;
+  QAction* view_params_action;
+
   void create_file_menu();
   void create_edit_menu();
+  void create_view_menu();
 };
 
 #endif // MAIN_WINDOW_HH
