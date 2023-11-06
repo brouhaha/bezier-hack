@@ -4,18 +4,18 @@
 #include <QHBoxLayout>
 #include <QHBoxLayout>
 
-#include "cubic_bezier.hh"
+#include "bezier.hh"
 #include "cubic_bezier_graph.hh"
 #include "cubic_bezier_params.hh"
 #include "cubic_bezier_widget.hh"
 
-CubicBezierWidget::CubicBezierWidget(CubicBezier& cb,
+CubicBezierWidget::CubicBezierWidget(Bezier& bezier,
 				     QWidget* parent,
 				     Qt::WindowFlags f) :
   QWidget(parent, f),
-  cb(cb),
-  cbp(new CubicBezierParams(cb, this)),
-  cbg(new CubicBezierGraph(cb, this)),
+  bezier(bezier),
+  cbp(new CubicBezierParams(bezier, this)),
+  cbg(new CubicBezierGraph(bezier, this)),
   hbox(new QHBoxLayout(this)),
   vbox(new QVBoxLayout())
 {

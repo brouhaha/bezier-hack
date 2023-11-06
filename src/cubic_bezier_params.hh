@@ -7,9 +7,8 @@
 #include <QGridLayout>
 #include <QWidget>
 
-#include "cubic_bezier.hh"
+#include "bezier.hh"
 
-class CubicBezier;
 class DoubleLineEdit;
 
 class CubicBezierParams: public QWidget
@@ -17,7 +16,7 @@ class CubicBezierParams: public QWidget
   Q_OBJECT
 
 public:
-  CubicBezierParams(CubicBezier& cb,
+  CubicBezierParams(Bezier& bezier,
 		    QWidget* parent = nullptr);
 
 public slots:
@@ -30,8 +29,8 @@ private slots:
   void on_double_value_changed(double value);  // received from a DoubleLineEdit
 
 private:
-  CubicBezier& cb;
-  CubicBezier prev_cb;
+  Bezier& bezier;
+  Bezier prev_bezier;
   QGridLayout* layout;
   DoubleLineEdit* x_coord_le[4];
   DoubleLineEdit* y_coord_le[4];

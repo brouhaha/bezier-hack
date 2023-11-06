@@ -5,12 +5,12 @@
 
 #include "cubic_bezier_graph.hh"
 
-CubicBezierGraph::CubicBezierGraph(CubicBezier& cb,
+CubicBezierGraph::CubicBezierGraph(Bezier& bezier,
 				   QWidget* parent):
   QGraphicsView(new QGraphicsScene(-135.0, -135.0, 270.0, 270.0, parent), parent),
-  cb(cb),
+  bezier(bezier),
   ai(-100.0, 100.0, 20.0),
-  cbi(cb)
+  cbi(bezier)
 {
   setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
@@ -59,8 +59,8 @@ void CubicBezierGraph::on_cubic_bezier_changed()
 {
   for (int i = 0; i < 4; i++)
   {
-    pi[i].on_position_changed(cb.p[i].x, 
-			      cb.p[i].y);
+    pi[i].on_position_changed(bezier[i].x, 
+			      bezier[i].y);
   }
   cbi.on_cubic_bezier_changed();
 }
@@ -69,11 +69,11 @@ void CubicBezierGraph::on_point_position_changed(int point_id,
 						 double x,
 						 double y)
 {
-  if ((x != cb.p[point_id].x) ||
-      (y != cb.p[point_id].y))
+  if ((x != bezier[point_id].x) ||
+      (y != bezier[point_id].y))
   {
-    cb.p[point_id].x = x;
-    cb.p[point_id].y = y;
+    bezier[point_id].x = x;
+    bezier[point_id].y = y;
     cbi.on_cubic_bezier_changed();
     emit cubic_bezier_changed();
   }

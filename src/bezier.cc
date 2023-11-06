@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <limits>
 
-#include "cubic_bezier.hh"
+#include "bezier.hh"
 
 
 std::ostream& operator<<(std::ostream& os, const Point& p)
@@ -56,17 +56,66 @@ BoundingBox& BoundingBox::operator+(Rect& other)
   return *this;
 }
 
-CubicBezier::CubicBezier(std::array<Point, 4> p):
+Bezier::Bezier(std::vector<Point> p):
   p(p)
 {
+  validate_order();
 }
 
-CubicBezier::CubicBezier(Point p0, Point p1, Point p2, Point p3):
-  p { p0, p1, p2, p3 }
+Bezier::Bezier(std::initializer_list<Point> p):
+  p(p)
+{
+  validate_order();
+}
+
+Bezier::Bezier(const Bezier& b):
+  p(b.p)
 {
 }
 
-Rect CubicBezier::get_bounding_box()
+int Bezier::order()
+{
+  return p.size() - 1;
+}
+
+void Bezier::validate_order()
+{
+  if (order() < 2)
+  {
+    throw std::runtime_error(std::format("Bezier curve order ({}) must 2 or higher", order()));
+  }
+}
+
+Point& Bezier::operator[] (std::size_t idx)
+{
+  return p[idx];
+}
+
+void Bezier::flush_cached_data()
+{
+  x_poly = nullptr;
+  y_poly = nullptr;
+}
+
+Polynomial<double> Bezier::get_x_poly()
+{
+  if (! x_poly)
+  {
+    // XXX compute x_poly
+  }
+  return *x_poly;
+}
+
+Polynomial<double> Bezier::get_y_poly()
+{
+  if (! y_poly)
+  {
+    // XXX compute y_poly
+  }
+  return *y_poly;
+}
+
+Rect Bezier::get_bounding_box()
 {
   // https://floris.briolas.nl/floris/2009/10/bounding-box-of-cubic-bezier/
   // https://stackoverflow.com/questions/24809978/calculating-the-bounding-box-of-cubic-bezier-curve
@@ -74,7 +123,14 @@ Rect CubicBezier::get_bounding_box()
   return BoundingBox(p[0], p[3]);  // XXX wrong
 }
 
-std::ostream& operator<<(std::ostream& os, const CubicBezier& cb)
+std::ostream& operator<<(std::ostream& os, const Bezier& cb)
 {
-  return os << "CubicBezier(" << cb.p[0] << ", " << cb.p[1] << ", " << cb.p[2] << ", " << cb.p[3] << ")";
+  auto it = cb.p.cbegin();
+  os << "Bezier(" << *it++;
+  while (it != cb.p.cend())
+  {
+    os << ", " << *it++;
+  }
+  os << ")";
+  return os;
 }

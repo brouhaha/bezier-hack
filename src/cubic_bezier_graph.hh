@@ -6,7 +6,7 @@
 
 #include <QGraphicsView>
 
-#include "cubic_bezier.hh"
+#include "bezier.hh"
 #include "axes_item.hh"
 #include "point_item.hh"
 #include "cubic_bezier_item.hh"
@@ -16,7 +16,7 @@ class CubicBezierGraph: public QGraphicsView
   Q_OBJECT
 
 public:
-  CubicBezierGraph(CubicBezier& cb,
+  CubicBezierGraph(Bezier& bezier,
 		   QWidget* parent = nullptr);
 
   void zoomToFit();
@@ -39,7 +39,7 @@ protected:
   void paintEvent(QPaintEvent *event) override;
 
 private:
-  CubicBezier& cb;
+  Bezier& bezier;
   AxesItem ai;
   std::array<PointItem, 4> pi;
   CubicBezierItem cbi;

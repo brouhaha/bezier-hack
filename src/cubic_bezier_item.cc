@@ -1,15 +1,18 @@
 // Copyright 2023 Eric Smith
 // SPDX-License-Identifier: GPL-3.0-only
 
+#include <exception>
+#include <format>
+
 #include <QPainterPath>
 
-#include "cubic_bezier.hh"
+#include "bezier.hh"
 #include "cubic_bezier_item.hh"
 
-CubicBezierItem::CubicBezierItem(CubicBezier& cb,
+CubicBezierItem::CubicBezierItem(Bezier& bezier,
 				 QGraphicsItem* parent):
   GraphicsPathObject(parent),
-  cb(cb)
+  bezier(bezier)
 {
   setPen(QPen(Qt::black));
   setBrush(Qt::NoBrush);
@@ -20,9 +23,22 @@ void CubicBezierItem::on_cubic_bezier_changed()
 {
   QPainterPath pp;
 
-  pp.moveTo(cb.p[0].x, cb.p[0].y);
-  pp.cubicTo(cb.p[1].x, cb.p[1].y,
-	     cb.p[2].x, cb.p[2].y,
-	     cb.p[3].x, cb.p[3].y);
+  pp.moveTo(bezier[0].x, bezier[0].y);
+
+  switch (bezier.order())
+  {
+  case 2:
+    pp.quadTo(bezier[1].x, bezier[1].y,
+	      bezier[2].x, bezier[2].y);
+    break;
+  case 3:
+    pp.cubicTo(bezier[1].x, bezier[1].y,
+	       bezier[2].x, bezier[2].y,
+	       bezier[3].x, bezier[3].y);
+    break;
+  default:
+    throw std::runtime_error(std::format("only quadratic and cubic bezier supported, not order {}", bezier.order()));
+  }
+
   setPath(pp);
 }

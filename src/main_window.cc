@@ -9,16 +9,15 @@
 #include <QMessageBox>
 #include <QTextEdit>
 
-#include "cubic_bezier.hh"
 #include "cubic_bezier_widget.hh"
 #include "main_window.hh"
 
 MainWindow::MainWindow():
-  cb(Point(-60.0, -40.0),
-     Point(-60.0, -80.0),
-     Point( 60.0,  80.0),
-     Point( 60.0,  40.0)),
-  cubic_bezier_widget(new CubicBezierWidget(cb,
+  bezier { Point(-60.0, -40.0),
+	   Point(-60.0, -80.0),
+	   Point( 60.0,  80.0),
+	   Point( 60.0,  40.0) },
+  cubic_bezier_widget(new CubicBezierWidget(bezier,
 					    this)) // QWidget* parent
 {
   setCentralWidget(cubic_bezier_widget);

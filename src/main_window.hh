@@ -6,7 +6,7 @@
 
 #include <QMainWindow>
 
-#include "cubic_bezier.hh"
+#include "bezier.hh"
 
 class CubicBezierWidget;
 
@@ -36,7 +36,7 @@ protected:
   void closeEvent(QCloseEvent* event) override;
 
 private:
-  CubicBezier cb;
+  Bezier bezier;
   CubicBezierWidget* cubic_bezier_widget;
 
   QMenu* fileMenu;

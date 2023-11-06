@@ -6,21 +6,21 @@
 
 #include "graphics_path_object.hh"
 
-class CubicBezier;
+class Bezier;
 
 class CubicBezierItem: public GraphicsPathObject
 {
   Q_OBJECT
 
 public:
-  CubicBezierItem(CubicBezier& cb,
+  CubicBezierItem(Bezier& bezier,
 		  QGraphicsItem* parent = nullptr);
 
 public slots:
   void on_cubic_bezier_changed();  // received when the params values are edited
 
 private:
-  CubicBezier& cb;
+  Bezier& bezier;
 };
 
 #endif // CUBIC_BEZIER_ITEM_HH

@@ -8,7 +8,7 @@ class QHBoxLayout;
 class QVBoxLayout;
 #include <QWidget>
 
-class CubicBezier;
+class Bezier;
 class CubicBezierGraph;
 class CubicBezierParams;
 
@@ -17,7 +17,7 @@ class CubicBezierWidget : public QWidget
   Q_OBJECT
 
 public:
-  CubicBezierWidget(CubicBezier& cb,
+  CubicBezierWidget(Bezier& bezier,
 		    QWidget* parent = nullptr,
 		    Qt::WindowFlags f = Qt::WindowFlags());
 
@@ -26,7 +26,7 @@ public slots:
   void on_view_params_changed(bool visible);
 
 private:
-  CubicBezier& cb;
+  Bezier& bezier;
   CubicBezierParams* cbp;
   CubicBezierGraph* cbg;
 
