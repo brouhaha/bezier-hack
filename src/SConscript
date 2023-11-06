@@ -11,7 +11,7 @@ def find_file(filename, pathnames):
 
 
 
-env.Append(CXXFLAGS = ['-g', '--std=c++20'])
+env.Append(CXXFLAGS = ['-g', '--std=c++23'])
 env.Append(LINKFLAGS = ['-g'])
 
 local_tools = ['qt6']
@@ -28,14 +28,14 @@ env.EnableQt6Modules(['QtCore',
 SOURCES = ['main.cc',
            'main_window.cc',
 	   'central_widget.cc',
-	   'cubic_bezier_view.cc',
 	   'axes_item.cc',
 	   'point_item.cc',
+	   'cubic_bezier_graph.cc',
 	   'cubic_bezier_item.cc',
 	   'cubic_bezier_params.cc',
 	   'double_line_edit.cc',
-	   'cubic_bezier.cc',
 	   'graphics_path_object.cc',
+	   'cubic_bezier.cc',
 	  ]
 
 

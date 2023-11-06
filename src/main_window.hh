@@ -8,7 +8,7 @@
 
 #include "cubic_bezier.hh"
 
-class CentralWidget;
+class CubicBezierWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -30,7 +30,7 @@ private slots:
 
 private:
   CubicBezier cb;
-  CentralWidget* central_widget;
+  CubicBezierWidget* cubic_bezier_widget;
 
   void create_file_menu();
   void create_edit_menu();

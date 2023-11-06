@@ -1,8 +1,8 @@
 // Copyright 2023 Eric Smith
 // SPDX-License-Identifier: GPL-3.0-only
 
-#ifndef CUBIC_BEZIER_VIEW_HH
-#define CUBIC_BEZIER_VIEW_HH
+#ifndef CUBIC_BEZIER_GRAPH_HH
+#define CUBIC_BEZIER_GRAPH_HH
 
 #include <QGraphicsView>
 
@@ -11,13 +11,13 @@
 #include "point_item.hh"
 #include "cubic_bezier_item.hh"
 
-class CubicBezierView: public QGraphicsView
+class CubicBezierGraph: public QGraphicsView
 {
   Q_OBJECT
 
 public:
-  CubicBezierView(CubicBezier& cb,
-		  QWidget* parent = nullptr);
+  CubicBezierGraph(CubicBezier& cb,
+		   QWidget* parent = nullptr);
 
   void zoomToFit();
 
@@ -45,4 +45,4 @@ private:
   CubicBezierItem cbi;
 };
 
-#endif // CUBIC_BEZIER_VIEW_HH
+#endif // CUBIC_BEZIER_GRAPH_HH

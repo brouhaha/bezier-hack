@@ -10,7 +10,7 @@
 #include <QTextEdit>
 
 #include "cubic_bezier.hh"
-#include "central_widget.hh"
+#include "cubic_bezier_widget.hh"
 #include "main_window.hh"
 
 MainWindow::MainWindow():
@@ -18,10 +18,10 @@ MainWindow::MainWindow():
      Point(-60.0, -80.0),
      Point( 60.0,  80.0),
      Point( 60.0,  40.0)),
-  central_widget(new CentralWidget(cb,
-				   this)) // QWidget* parent
+  cubic_bezier_widget(new CubicBezierWidget(cb,
+					    this)) // QWidget* parent
 {
-  setCentralWidget(central_widget);
+  setCentralWidget(cubic_bezier_widget);
 
   create_file_menu();
   create_edit_menu();
