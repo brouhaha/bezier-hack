@@ -60,8 +60,8 @@ void BezierGraph::on_bezier_changed()
 {
   for (int i = 0; i <= bezier.order(); i++)
   {
-    pi[i]->on_position_changed(bezier[i].x, 
-			       bezier[i].y);
+    pi[i]->on_position_changed(bezier[i][X], 
+			       bezier[i][Y]);
   }
   bezier_item.on_bezier_changed();
 }
@@ -70,11 +70,11 @@ void BezierGraph::on_point_position_changed(int point_id,
 					    double x,
 					    double y)
 {
-  if ((x != bezier[point_id].x) ||
-      (y != bezier[point_id].y))
+  if ((x != bezier[point_id][X]) ||
+      (y != bezier[point_id][Y]))
   {
-    bezier[point_id].x = x;
-    bezier[point_id].y = y;
+    bezier[point_id][X] = x;
+    bezier[point_id][Y] = y;
     bezier_item.on_bezier_changed();
     emit bezier_changed();
   }

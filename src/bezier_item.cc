@@ -23,18 +23,18 @@ void BezierItem::on_bezier_changed()
 {
   QPainterPath pp;
 
-  pp.moveTo(bezier[0].x, bezier[0].y);
+  pp.moveTo(bezier[0][X], bezier[0][Y]);
 
   switch (bezier.order())
   {
   case 2:
-    pp.quadTo(bezier[1].x, bezier[1].y,
-	      bezier[2].x, bezier[2].y);
+    pp.quadTo(bezier[1][X], bezier[1][Y],
+	      bezier[2][X], bezier[2][Y]);
     break;
   case 3:
-    pp.cubicTo(bezier[1].x, bezier[1].y,
-	       bezier[2].x, bezier[2].y,
-	       bezier[3].x, bezier[3].y);
+    pp.cubicTo(bezier[1][X], bezier[1][Y],
+	       bezier[2][X], bezier[2][Y],
+	       bezier[3][X], bezier[3][Y]);
     break;
   default:
     throw std::runtime_error(std::format("only quadratic and cubic bezier supported, not order {}", bezier.order()));

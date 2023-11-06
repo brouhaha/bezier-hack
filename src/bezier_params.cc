@@ -21,8 +21,8 @@ BezierParams::BezierParams(Bezier& bezier,
   for (int i = 0; i <= bezier.order(); i++)
   {
     layout->addWidget(new QLabel(QString::fromStdString(std::format("p{}", i+1))));
-    x_coord_le[i] = new DoubleLineEdit(bezier[i].x, this);
-    y_coord_le[i] = new DoubleLineEdit(bezier[i].y, this);
+    x_coord_le[i] = new DoubleLineEdit(bezier[i][X], this);
+    y_coord_le[i] = new DoubleLineEdit(bezier[i][Y], this);
     layout->addWidget(x_coord_le[i], i+1, 1);
     layout->addWidget(y_coord_le[i], i+1, 2);
     connect(x_coord_le[i], &DoubleLineEdit::value_changed,
@@ -35,8 +35,8 @@ BezierParams::BezierParams(Bezier& bezier,
 
   for (int i = 0; i <= bezier.order(); i++)
   {
-    x_coord_le[i]->setText(QString::fromStdString(std::to_string(bezier[i].x)));
-    y_coord_le[i]->setText(QString::fromStdString(std::to_string(bezier[i].y)));
+    x_coord_le[i]->setText(QString::fromStdString(std::to_string(bezier[i][X])));
+    y_coord_le[i]->setText(QString::fromStdString(std::to_string(bezier[i][Y])));
   }
 }
 
@@ -44,15 +44,15 @@ void BezierParams::on_bezier_changed()
 {
   for (int i = 0; i <= bezier.order(); i++)
   {
-    if (bezier[i].x != prev_bezier[i].x)
+    if (bezier[i][X] != prev_bezier[i][X])
     {
-      x_coord_le[i]->setText(QString::fromStdString(std::to_string(bezier[i].x)));
-      prev_bezier[i].x = bezier[i].x;
+      x_coord_le[i]->setText(QString::fromStdString(std::to_string(bezier[i][X])));
+      prev_bezier[i][X] = bezier[i][X];
     }
-    if (bezier[i].y != prev_bezier[i].y)
+    if (bezier[i][Y] != prev_bezier[i][Y])
     {
-      y_coord_le[i]->setText(QString::fromStdString(std::to_string(bezier[i].y)));
-      prev_bezier[i].y = bezier[i].y;
+      y_coord_le[i]->setText(QString::fromStdString(std::to_string(bezier[i][Y])));
+      prev_bezier[i][Y] = bezier[i][Y];
     }
   }
 }

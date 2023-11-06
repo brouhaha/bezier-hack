@@ -26,7 +26,6 @@ env.EnableQt6Modules(['QtCore',
 		      'QtWidgets'])
 
 SOURCES = ['main.cc',
-	   'bezier.cc',
            'main_window.cc',
 	   'bezier_widget.cc',
 	   'bezier_graph.cc',
@@ -36,7 +35,11 @@ SOURCES = ['main.cc',
 	   'bezier_params.cc',
 	   'double_line_edit.cc',
 	   'graphics_path_object.cc',
+
+	   'bezier.cc',
 	   'polynomial.cc',
+	   'rect.cc',
+	   'point.cc'
 	  ]
 
 

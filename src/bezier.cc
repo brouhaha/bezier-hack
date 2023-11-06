@@ -7,63 +7,14 @@
 #include "bezier.hh"
 
 
-std::ostream& operator<<(std::ostream& os, const Point& p)
-{
-  return os << "Point(" << p.x << ", " << p.y << ")";
-}
-
-
-Rect::Rect(Point top_left, Point bottom_right):
-  top_left(top_left),
-  bottom_right(bottom_right)
-{
-}
-
-
-BoundingBox::BoundingBox():
-  Rect(Point( std::numeric_limits<double>::infinity(),
-	      std::numeric_limits<double>::infinity()),
-       Point(-std::numeric_limits<double>::infinity(),
-	     -std::numeric_limits<double>::infinity()))
-{
-}
-
-BoundingBox::BoundingBox(Rect r):
-  Rect(r)
-{
-  if (top_left.x > bottom_right.x)
-    std::swap<double>(top_left.x, bottom_right.x);
-  if (top_left.y > bottom_right.y)
-    std::swap<double>(top_left.y, bottom_right.y);
-}
-
-BoundingBox::BoundingBox(Point p0, Point p1):
-  Rect(p0, p1)
-{
-  if (top_left.x > bottom_right.x)
-    std::swap<double>(top_left.x, bottom_right.x);
-  if (top_left.y > bottom_right.y)
-    std::swap<double>(top_left.y, bottom_right.y);
-}
-
-BoundingBox& BoundingBox::operator+(Rect& other)
-{
-  top_left.x = std::min(top_left.x, other.top_left.x);
-  top_left.y = std::min(top_left.y, other.top_left.y);
-  bottom_right.x = std::max(bottom_right.x, other.bottom_right.x);
-  bottom_right.y = std::max(bottom_right.y, other.bottom_right.y);
-
-  return *this;
-}
-
-Bezier::Bezier(std::vector<Point> p):
-  p(p)
+Bezier::Bezier(std::span<Point> control_points)
 {
   validate_order();
+  p.assign(control_points.begin(), control_points.end());
 }
 
-Bezier::Bezier(std::initializer_list<Point> p):
-  p(p)
+Bezier::Bezier(std::initializer_list<Point> control_points):
+  p(control_points)
 {
   validate_order();
 }
@@ -93,26 +44,21 @@ Point& Bezier::operator[] (std::size_t idx)
 
 void Bezier::flush_cached_data()
 {
-  x_poly = nullptr;
-  y_poly = nullptr;
+  poly.clear();
 }
 
-Polynomial<double> Bezier::get_x_poly()
+Polynomial Bezier::get_poly(unsigned dimension)
 {
-  if (! x_poly)
+ // XXXXXX size of poly needs to be established somewhere
+  if (dimension >= poly.size())
   {
-    // XXX compute x_poly
+    throw std::runtime_error(std::format("Can't get poly for dimension {} of Bezier with {} dimensions", dimension, poly.size()));
   }
-  return *x_poly;
-}
-
-Polynomial<double> Bezier::get_y_poly()
-{
-  if (! y_poly)
+  if (! poly[dimension])
   {
-    // XXX compute y_poly
+    // XXX compute poly for dimension
   }
-  return *y_poly;
+  return *poly[dimension];
 }
 
 Rect Bezier::get_bounding_box()
@@ -120,14 +66,16 @@ Rect Bezier::get_bounding_box()
   // https://floris.briolas.nl/floris/2009/10/bounding-box-of-cubic-bezier/
   // https://stackoverflow.com/questions/24809978/calculating-the-bounding-box-of-cubic-bezier-curve
 
-  return BoundingBox(p[0], p[3]);  // XXX wrong
+  Rect bb(p[0].dimensionality(), p);
+
+  return bb;
 }
 
-std::ostream& operator<<(std::ostream& os, const Bezier& cb)
+std::ostream& operator<<(std::ostream& os, const Bezier& bezier)
 {
-  auto it = cb.p.cbegin();
+  auto it = bezier.p.cbegin();
   os << "Bezier(" << *it++;
-  while (it != cb.p.cend())
+  while (it != bezier.p.cend())
   {
     os << ", " << *it++;
   }
