@@ -25,21 +25,26 @@ env.EnableQt6Modules(['QtCore',
                       'QtGui',
 		      'QtWidgets'])
 
-SOURCES = ['main.cc',
+SOURCES = ['point.cc',                 # non-GUI
+	   'rect.cc',
+	   'polygon.cc',
+	   'bezier.cc',
+	   'polynomial.cc',
+
+           # GUI
+           'bezier_object.cc',
+           'main.cc',
            'main_window.cc',
 	   'bezier_widget.cc',
 	   'bezier_graph.cc',
 	   'axes_item.cc',
 	   'point_item.cc',
+	   'rect_item.cc',
+	   'polygon_item.cc',
 	   'bezier_item.cc',
 	   'bezier_params.cc',
 	   'double_line_edit.cc',
 	   'graphics_path_object.cc',
-
-	   'bezier.cc',
-	   'polynomial.cc',
-	   'rect.cc',
-	   'point.cc'
 	  ]
 
 

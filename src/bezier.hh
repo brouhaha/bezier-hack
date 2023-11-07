@@ -39,8 +39,6 @@ public:
 
   void set(std::size_t idx, unsigned dimension, double value);  // set one coordinate of one control point
 
-  Polynomial get_poly(unsigned dimension);
-
   Rect get_control_point_bounding_box();
   Rect get_bounding_box();
   Polygon get_control_point_convex_hull();
@@ -54,10 +52,10 @@ private:
   std::unique_ptr<Polygon> cp_convex_hull;
   Rect bounding_box;
 
-  std::vector<std::unique_ptr<Polynomial>> poly;
-
   void validate_order();
   void flush_cached_data();
+
+  Polynomial compute_polynomial(unsigned dimension);
 };
 
 #endif // BEZIER_HH

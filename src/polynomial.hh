@@ -4,7 +4,6 @@
 #ifndef POLYNOMIAL_HH
 #define POLYNOMIAL_HH
 
-#include <array>
 #include <complex>
 #include <concepts>
 #include <exception>
@@ -12,12 +11,13 @@
 #include <initializer_list>
 #include <iostream>
 #include <ranges>
+#include <span>
 #include <vector>
 
 class Polynomial
 {
 public:
-  Polynomial(std::vector<double> coefficients);
+  Polynomial(std::span<double> coefficients);
   Polynomial(std::initializer_list<double> coefficients);
 
   double operator() (double x) const;
@@ -33,7 +33,8 @@ public:
 
   std::vector<std::complex<double>> roots() const;
 
-  std::vector<double> real_roots() const;
+  std::vector<double> real_roots(double min = -std::numeric_limits<double>::infinity(),
+				 double max =  std::numeric_limits<double>::infinity()) const;
 
   friend std::ostream& operator<<(std::ostream& os, const Polynomial& p);
 

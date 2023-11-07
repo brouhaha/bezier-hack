@@ -1,8 +1,6 @@
 // Copyright 2023 Eric Smith
 // SPDX-License-Identifier: GPL-3.0-only
 
-#include <iostream>
-
 #include <QColor>
 #include <QPainter>
 
@@ -16,7 +14,9 @@ BezierGraph::BezierGraph(BezierObject& bezier,
   bezier_item(bezier),
   cp_bounding_box(2),
   cp_bounding_box_item(QColor(Qt::red)),
-  cp_convex_hull_item(QColor("#ffa500"))
+  cp_convex_hull_item(QColor("#ffa500")),
+  bezier_bounding_box(2),
+  bezier_bounding_box_item(QColor(Qt::green))
 {
   setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
@@ -38,6 +38,10 @@ BezierGraph::BezierGraph(BezierObject& bezier,
   update_cp_convex_hull();
   cp_convex_hull_item.setVisible(false);
   scene()->addItem(&cp_convex_hull_item);
+
+  update_bezier_bounding_box();
+  bezier_bounding_box_item.setVisible(false);
+  scene()->addItem(&bezier_bounding_box_item);
 
   scene()->addItem(&bezier_item);
 
@@ -83,6 +87,7 @@ void BezierGraph::on_bezier_changed()  // received when the params values are ed
   }
   update_cp_bounding_box();
   update_cp_convex_hull();
+  update_bezier_bounding_box();
 }
 
 void BezierGraph::on_point_position_changed(int point_id,
@@ -109,16 +114,22 @@ void BezierGraph::on_view_cp_bounding_box_changed(bool visible)
 
 void BezierGraph::on_view_bezier_bounding_box_changed([[maybe_unused]] bool visible)
 {
+  bezier_bounding_box_item.setVisible(visible);
 }
 
 void BezierGraph::update_cp_bounding_box()
 {
-  cp_bounding_box = bezier.get_bounding_box();
+  cp_bounding_box = bezier.get_control_point_bounding_box();
   cp_bounding_box_item.set_rect(cp_bounding_box);
 }
 
 void BezierGraph::update_cp_convex_hull()
 {
-  std::cout << "update_cp_convex_hull()\n";
   cp_convex_hull_item.set_polygon(bezier.get_control_point_convex_hull());
+}
+
+void BezierGraph::update_bezier_bounding_box()
+{
+  bezier_bounding_box = bezier.get_bounding_box();
+  bezier_bounding_box_item.set_rect(bezier_bounding_box);
 }

@@ -54,10 +54,12 @@ private:
 
   PolygonItem cp_convex_hull_item;
 
+  Rect bezier_bounding_box;
   RectItem bezier_bounding_box_item;
 
   void update_cp_bounding_box();
   void update_cp_convex_hull();
+  void update_bezier_bounding_box();
 };
 
 #endif // BEZIER_GRAPH_HH

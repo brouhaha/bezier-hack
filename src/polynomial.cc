@@ -3,9 +3,9 @@
 
 #include "polynomial.hh"
 
-Polynomial::Polynomial(std::vector<double> coefficients):
-  cv(coefficients)
+Polynomial::Polynomial(std::span<double> coefficients)
 {
+  cv.assign(coefficients.begin(), coefficients.end());
   drop_high_zero_terms();
 }
 
@@ -44,7 +44,8 @@ Polynomial Polynomial::derivative() const
   std::vector<double> dc;  // one fewer element than this
   for (int i = 1; i < cv.size(); i++)
   {
-    dc.push_back(i * cv[i]);
+    double v = i * cv[i];
+    dc.push_back(v);
   }
 
   return Polynomial(dc);
@@ -76,12 +77,13 @@ std::vector<std::complex<double>> Polynomial::roots() const
   return crv;
 }
 
-std::vector<double> Polynomial::real_roots() const
+std::vector<double> Polynomial::real_roots(double min,
+					   double max) const
 {
   std::vector<double> rrv;
   for (auto cr: roots())
   {
-    if (cr.imag() == 0.0)
+    if ((cr.imag() == 0.0) && (cr.real() >= min) && (cr.real() <= max))
       rrv.push_back(cr.real());
   }
   return rrv;
@@ -113,6 +115,9 @@ void Polynomial::drop_high_zero_terms()
 
 
 #if 0
+#include <iostream>
+#include <format>
+
 int main([[maybe_unused]] int argc,
 	 [[maybe_unused]] char*argv[])
 {
