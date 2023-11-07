@@ -34,7 +34,7 @@ void MainWindow::create_file_menu()
 {
   fileMenu = menuBar()->addMenu(tr("&File"));
 
-  QAction* aboutAction = fileMenu->addAction(tr("About bezier-bounding-box"));
+  QAction* aboutAction = fileMenu->addAction(tr("About bezier-hack"));
   connect(aboutAction, &QAction::triggered,
 	  this,        &MainWindow::on_about);
 

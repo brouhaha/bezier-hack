@@ -1,5 +1,5 @@
 *~
 .sconsign.dblite
-cubic-bezier-bounding-box.conf
+bezier-hack.conf
 build
 __pycache__
