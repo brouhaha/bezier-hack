@@ -8,9 +8,11 @@
 
 #include <QGraphicsView>
 
-#include "bezier.hh"
+#include "bezier_object.hh"
 #include "axes_item.hh"
 #include "point_item.hh"
+#include "rect_item.hh"
+#include "polygon_item.hh"
 #include "bezier_item.hh"
 
 class BezierGraph: public QGraphicsView
@@ -18,18 +20,19 @@ class BezierGraph: public QGraphicsView
   Q_OBJECT
 
 public:
-  BezierGraph(Bezier& bezier,
+  BezierGraph(BezierObject& bezier,
 	      QWidget* parent = nullptr);
 
   void zoomToFit();
 
   QSize sizeHint() const override;
 
-signals:
-  void bezier_changed();  // emitted when user drags handles
-
 public slots:
   void on_bezier_changed();  // received when the params values are edited
+
+  void on_view_cp_convex_hull_changed(bool visible);
+  void on_view_cp_bounding_box_changed(bool visible);
+  void on_view_bezier_bounding_box_changed(bool visible);
 
 private slots:
   void on_point_position_changed(int point_id,
@@ -41,10 +44,20 @@ protected:
   void paintEvent(QPaintEvent *event) override;
 
 private:
-  Bezier& bezier;
+  BezierObject& bezier;
   AxesItem ai;
   std::vector<std::unique_ptr<PointItem>> pi;
   BezierItem bezier_item;
+
+  Rect cp_bounding_box;
+  RectItem cp_bounding_box_item;
+
+  PolygonItem cp_convex_hull_item;
+
+  RectItem bezier_bounding_box_item;
+
+  void update_cp_bounding_box();
+  void update_cp_convex_hull();
 };
 
 #endif // BEZIER_GRAPH_HH

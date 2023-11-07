@@ -8,7 +8,7 @@ class QHBoxLayout;
 class QVBoxLayout;
 #include <QWidget>
 
-class Bezier;
+class BezierObject;
 class BezierGraph;
 class BezierParams;
 
@@ -17,16 +17,20 @@ class BezierWidget : public QWidget
   Q_OBJECT
 
 public:
-  BezierWidget(Bezier& bezier,
+  BezierWidget(BezierObject& bezier,
 	       QWidget* parent = nullptr,
 	       Qt::WindowFlags f = Qt::WindowFlags());
 
 public slots:
   void on_view_graph_changed(bool visible);
+  void on_view_cp_convex_hull_changed(bool visible);
+  void on_view_cp_bounding_box_changed(bool visible);
+  void on_view_bezier_bounding_box_changed(bool visible);
+
   void on_view_params_changed(bool visible);
 
 private:
-  Bezier& bezier;
+  BezierObject& bezier;
   BezierParams* bezier_params;
   BezierGraph* bezier_graph;
 

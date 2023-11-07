@@ -7,7 +7,7 @@
 #include <QGridLayout>
 #include <QWidget>
 
-#include "bezier.hh"
+#include "bezier_object.hh"
 
 class DoubleLineEdit;
 
@@ -16,21 +16,17 @@ class BezierParams: public QWidget
   Q_OBJECT
 
 public:
-  BezierParams(Bezier& bezier,
+  BezierParams(BezierObject& bezier,
 	       QWidget* parent = nullptr);
 
 public slots:
-  void on_bezier_changed();  // recieved when user drags handles
-
-signals:
-  void bezier_changed();  // emitted when user edits a numerc value
+  void on_bezier_changed();
 
 private slots:
-  void on_double_value_changed(double value);  // received from a DoubleLineEdit
+  void on_double_value_changed(int ref, double value);  // received from a DoubleLineEdit
 
 private:
-  Bezier& bezier;
-  Bezier prev_bezier;
+  BezierObject& bezier;
   QGridLayout* layout;
   DoubleLineEdit* x_coord_le[4];
   DoubleLineEdit* y_coord_le[4];

@@ -13,10 +13,11 @@
 #include "main_window.hh"
 
 MainWindow::MainWindow():
-  bezier {{-60.0, -40.0},
-	  {-60.0, -80.0},
-	  { 60.0,  80.0},
-	  { 60.0,  40.0}},
+  b {{-60.0, -40.0},
+     {-60.0, -80.0},
+     { 60.0,  80.0},
+     { 60.0,  40.0}},
+  bezier(b),
   bezier_widget(new BezierWidget(bezier,
 				 this)) // QWidget* parent
 {
@@ -86,6 +87,33 @@ void MainWindow::create_view_menu()
   connect(this,              &MainWindow::view_graph_changed,
 	  bezier_widget,     &BezierWidget::on_view_graph_changed);
 
+  view_cp_bounding_box_action = viewMenu->addAction(tr("Control point bounding box"));
+  view_cp_bounding_box_action->setCheckable(true);
+  view_cp_bounding_box_action->setChecked(false);
+  view_cp_bounding_box_action->setStatusTip(tr("Toggle viewing of the control point bounding_box"));
+  connect(view_cp_bounding_box_action, &QAction::triggered,
+	  this,                        &MainWindow::on_view_cp_bounding_box_changed);
+  connect(this,                        &MainWindow::view_cp_bounding_box_changed,
+	  bezier_widget,               &BezierWidget::on_view_cp_bounding_box_changed);
+
+  view_cp_convex_hull_action = viewMenu->addAction(tr("Control point convex hull"));
+  view_cp_convex_hull_action->setCheckable(true);
+  view_cp_convex_hull_action->setChecked(false);
+  view_cp_convex_hull_action->setStatusTip(tr("Toggle viewing of the control point convex hull"));
+  connect(view_cp_convex_hull_action, &QAction::triggered,
+	  this,                       &MainWindow::on_view_cp_convex_hull_changed);
+  connect(this,                       &MainWindow::view_cp_convex_hull_changed,
+	  bezier_widget,              &BezierWidget::on_view_cp_convex_hull_changed);
+
+  view_bezier_bounding_box_action = viewMenu->addAction(tr("Bezier bounding box"));
+  view_bezier_bounding_box_action->setCheckable(true);
+  view_bezier_bounding_box_action->setChecked(false);
+  view_bezier_bounding_box_action->setStatusTip(tr("Toggle viewing of the Bezier bounding_box"));
+  connect(view_bezier_bounding_box_action, &QAction::triggered,
+	  this,                            &MainWindow::on_view_bezier_bounding_box_changed);
+  connect(this,                            &MainWindow::view_bezier_bounding_box_changed,
+	  bezier_widget,                   &BezierWidget::on_view_bezier_bounding_box_changed);
+
   (void) viewMenu->addSeparator();
 
   view_params_action = viewMenu->addAction(tr("Coordinats"));
@@ -101,13 +129,26 @@ void MainWindow::create_view_menu()
 
 void MainWindow::on_view_graph_changed()
 {
-  std::cout << "MainWindow::on_view_graph_changed()\n";
   emit view_graph_changed(view_graph_action->isChecked());
+}
+
+void MainWindow::on_view_cp_convex_hull_changed()
+{
+  emit view_cp_convex_hull_changed(view_cp_convex_hull_action->isChecked());
+}
+
+void MainWindow::on_view_cp_bounding_box_changed()
+{
+  emit view_cp_bounding_box_changed(view_cp_bounding_box_action->isChecked());
+}
+
+void MainWindow::on_view_bezier_bounding_box_changed()
+{
+  emit view_bezier_bounding_box_changed(view_bezier_bounding_box_action->isChecked());
 }
 
 void MainWindow::on_view_params_changed()
 {
-  std::cout << "MainWindow::on_view_params_changed()\n";
   emit view_params_changed(view_params_action->isChecked());
 }
 
@@ -119,7 +160,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 void MainWindow::on_about()
 {
   QMessageBox::about(this,
-		     tr("About bezier-bounding-box"),
+		     tr("About bezier-hack"),
 		     tr("A program to demonstrate computation of a bounding box for a bezier curve."));
 }
 

@@ -12,19 +12,29 @@
 class Rect
 {
 public:
-  Rect(int dimensionality);
-  Rect(int dimensionality, std::span<Point> points);
-  Rect(int dimensionality, std::initializer_list<Point> points);
+  Rect(unsigned dimensionality);
+  Rect(unsigned dimensionality, const std::span<Point> points);
+  Rect(unsigned dimensionality, const std::initializer_list<Point> points);
 
-  void add_point(Point p);
+  void reset();
+
+  bool empty();
+
+  void add_points(const std::span<Point> points);
+  void add_points(const std::initializer_list<Point> points);
+  void add_point(const Point p);
   
+  double get_min_coordinate(unsigned dimension);
+  double get_max_coordinate(unsigned dimension);
+  double get_extent(unsigned dimension);
+
   friend std::ostream& operator<< (std::ostream& os, const Rect& r);
 
 private:
+  unsigned dimensionality;
+
   Point min;
   Point max;
-
-  void reset_min_max();
 };
 
 #endif // RECT_HH

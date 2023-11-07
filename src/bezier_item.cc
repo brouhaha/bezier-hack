@@ -6,10 +6,10 @@
 
 #include <QPainterPath>
 
-#include "bezier.hh"
+#include "bezier_object.hh"
 #include "bezier_item.hh"
 
-BezierItem::BezierItem(Bezier& bezier,
+BezierItem::BezierItem(BezierObject& bezier,
 		       QGraphicsItem* parent):
   GraphicsPathObject(parent),
   bezier(bezier)
@@ -17,24 +17,27 @@ BezierItem::BezierItem(Bezier& bezier,
   setPen(QPen(Qt::black));
   setBrush(Qt::NoBrush);
   on_bezier_changed();
+
+  connect(&bezier, &BezierObject::value_changed,
+	  this,    &BezierItem::on_bezier_changed);
 }
 
 void BezierItem::on_bezier_changed()
 {
   QPainterPath pp;
 
-  pp.moveTo(bezier[0][X], bezier[0][Y]);
+  pp.moveTo(bezier.get(0, X), bezier.get(0, Y));
 
   switch (bezier.order())
   {
   case 2:
-    pp.quadTo(bezier[1][X], bezier[1][Y],
-	      bezier[2][X], bezier[2][Y]);
+    pp.quadTo(bezier.get(1, X), bezier.get(1, Y),
+	      bezier.get(2, X), bezier.get(2, Y));
     break;
   case 3:
-    pp.cubicTo(bezier[1][X], bezier[1][Y],
-	       bezier[2][X], bezier[2][Y],
-	       bezier[3][X], bezier[3][Y]);
+    pp.cubicTo(bezier.get(1, X), bezier.get(1, Y),
+	       bezier.get(2, X), bezier.get(2, Y),
+	       bezier.get(3, X), bezier.get(3, Y));
     break;
   default:
     throw std::runtime_error(std::format("only quadratic and cubic bezier supported, not order {}", bezier.order()));

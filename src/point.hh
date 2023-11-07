@@ -27,10 +27,13 @@ public:
   
   Point(std::initializer_list<double> coordinates);
 
-  unsigned dimensionality();
+  bool operator==(const Point& other) const;
 
-  std::span<double> get();
+  unsigned dimensionality() const;
 
+  const std::vector<double> get() const;
+
+  const double& operator[] (size_t dimension) const;
   double& operator[] (size_t dimension);
 
   friend std::ostream& operator<< (std::ostream& os, const Point& p);

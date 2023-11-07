@@ -2,51 +2,98 @@
 // SPDX-License-Identifier: GPL-3.0-only
 
 #include <algorithm>
+#include <cmath>
 #include <exception>
 #include <exception>
 #include <limits>
 
 #include "rect.hh"
 
-Rect::Rect(int dimensionality):
+Rect::Rect(unsigned dimensionality):
+  dimensionality(dimensionality),
   min(dimensionality),
   max(dimensionality)
 {
-  reset_min_max();
+  reset();
 }
 
-Rect::Rect(int dimensionality, std::span<Point> points):
+Rect::Rect(unsigned dimensionality, const std::span<Point> points):
+  dimensionality(dimensionality),
   min(dimensionality),
   max(dimensionality)
 {
-  reset_min_max();
+  reset();
   for (auto p: points)
   {
     add_point(p);
   }
 }
 
-Rect::Rect(int dimensionality, std::initializer_list<Point> points):
+Rect::Rect(unsigned dimensionality, const std::initializer_list<Point> points):
+  dimensionality(dimensionality),
   min(dimensionality),
   max(dimensionality)
 {
-  reset_min_max();
+  reset();
   for (auto p: points)
   {
     add_point(p);
   }
 }
 
-void Rect::reset_min_max()
+void Rect::reset()
 {
-  for (int i = 0; i < min.dimensionality(); i++)
+  for (int i = 0; i < dimensionality; i++)
   {
     min[i] =  std::numeric_limits<double>::infinity();
     max[i] = -std::numeric_limits<double>::infinity();
   }
 }
 
-void Rect::add_point(Point p)
+bool Rect::empty()
+{
+  for (unsigned dimension = 0; dimension < dimensionality; dimension++)
+  {
+    if (std::isinf(min[dimension]) ||
+	std::isinf(max[dimension]) ||
+	(get_extent(dimension) <= 0.0))
+      return true;
+  }
+  return false;
+}
+
+double Rect::get_min_coordinate(unsigned dimension)
+{
+  return min[dimension];
+}
+
+double Rect::get_max_coordinate(unsigned dimension)
+{
+  return max[dimension];
+}
+
+double Rect::get_extent(unsigned dimension)
+{
+  return max[dimension] - min[dimension];
+}
+
+void Rect::add_points(const std::span<Point> points)
+{
+  for (auto p: points)
+  {
+    add_point(p);
+  }
+}
+
+void Rect::add_points(const std::initializer_list<Point> points)
+{
+  for (auto p: points)
+  {
+    add_point(p);
+  }
+}
+
+void Rect::add_point(const Point p)
 {
   if (min.dimensionality() != p.dimensionality())
   {

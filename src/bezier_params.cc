@@ -9,11 +9,10 @@
 #include "double_line_edit.hh"
 #include "bezier_params.hh"
 
-BezierParams::BezierParams(Bezier& bezier,
+BezierParams::BezierParams(BezierObject& bezier,
 			   QWidget* parent):
   QWidget(parent),
   bezier(bezier),
-  prev_bezier(bezier),
   layout(new QGridLayout)
 {
   layout->addWidget(new QLabel("x"), 0, 1);
@@ -21,8 +20,8 @@ BezierParams::BezierParams(Bezier& bezier,
   for (int i = 0; i <= bezier.order(); i++)
   {
     layout->addWidget(new QLabel(QString::fromStdString(std::format("p{}", i+1))));
-    x_coord_le[i] = new DoubleLineEdit(bezier[i][X], this);
-    y_coord_le[i] = new DoubleLineEdit(bezier[i][Y], this);
+    x_coord_le[i] = new DoubleLineEdit(2*i,   0.0, this);
+    y_coord_le[i] = new DoubleLineEdit(2*i+1, 0.0, this);
     layout->addWidget(x_coord_le[i], i+1, 1);
     layout->addWidget(y_coord_le[i], i+1, 2);
     connect(x_coord_le[i], &DoubleLineEdit::value_changed,
@@ -31,33 +30,25 @@ BezierParams::BezierParams(Bezier& bezier,
 	    this,          &BezierParams::on_double_value_changed);
   }
 
-  setLayout(layout);
+  connect(&bezier, &BezierObject::value_changed,
+	  this,    &BezierParams::on_bezier_changed);
 
-  for (int i = 0; i <= bezier.order(); i++)
-  {
-    x_coord_le[i]->setText(QString::fromStdString(std::to_string(bezier[i][X])));
-    y_coord_le[i]->setText(QString::fromStdString(std::to_string(bezier[i][Y])));
-  }
+  on_bezier_changed();
+
+  setLayout(layout);
 }
+
 
 void BezierParams::on_bezier_changed()
 {
   for (int i = 0; i <= bezier.order(); i++)
   {
-    if (bezier[i][X] != prev_bezier[i][X])
-    {
-      x_coord_le[i]->setText(QString::fromStdString(std::to_string(bezier[i][X])));
-      prev_bezier[i][X] = bezier[i][X];
-    }
-    if (bezier[i][Y] != prev_bezier[i][Y])
-    {
-      y_coord_le[i]->setText(QString::fromStdString(std::to_string(bezier[i][Y])));
-      prev_bezier[i][Y] = bezier[i][Y];
-    }
+    x_coord_le[i]->setText(QString::fromStdString(std::to_string(bezier.get(i, X))));
+    y_coord_le[i]->setText(QString::fromStdString(std::to_string(bezier.get(i, Y))));
   }
 }
 
-void BezierParams::on_double_value_changed([[maybe_unused]] double value)
+void BezierParams::on_double_value_changed(int ref, double value)
 {
-  emit bezier_changed();
+  bezier.set(ref/2, ref%2, value);
 }

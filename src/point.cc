@@ -20,14 +20,24 @@ Point::Point(std::initializer_list<double> coordinates):
 {
 }
 
-unsigned Point::dimensionality()
+bool Point::operator==(const Point& other) const
+{
+  return other.c == c;
+}
+
+unsigned Point::dimensionality() const
 {
   return c.size();
 }
 
-std::span<double> Point::get()
+const std::vector<double> Point::get() const
 {
   return c;
+}
+
+const double& Point::operator[] (size_t dimension) const
+{
+  return c[dimension];
 }
 
 double& Point::operator[] (size_t dimension)

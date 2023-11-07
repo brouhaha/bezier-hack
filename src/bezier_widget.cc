@@ -9,7 +9,7 @@
 #include "bezier_params.hh"
 #include "bezier_widget.hh"
 
-BezierWidget::BezierWidget(Bezier& bezier,
+BezierWidget::BezierWidget(BezierObject& bezier,
 			   QWidget* parent,
 			   Qt::WindowFlags f) :
   QWidget(parent, f),
@@ -25,16 +25,26 @@ BezierWidget::BezierWidget(Bezier& bezier,
   hbox->addWidget(bezier_graph,
 		  1);   // stretch - give extra space to the cbg, not the vbox
   hbox->addItem(vbox);
-
-  connect(bezier_params, &BezierParams::bezier_changed,
-	  bezier_graph,  &BezierGraph::on_bezier_changed);
-  connect(bezier_graph,  &BezierGraph::bezier_changed,
-	  bezier_params, &BezierParams::on_bezier_changed);
 }
 
 void BezierWidget::on_view_graph_changed(bool visible)
 {
   bezier_graph->setVisible(visible);
+}
+
+void BezierWidget::on_view_cp_convex_hull_changed(bool visible)
+{
+  bezier_graph->on_view_cp_convex_hull_changed(visible);
+}
+
+void BezierWidget::on_view_cp_bounding_box_changed(bool visible)
+{
+  bezier_graph->on_view_cp_bounding_box_changed(visible);
+}
+
+void BezierWidget::on_view_bezier_bounding_box_changed(bool visible)
+{
+  bezier_graph->on_view_bezier_bounding_box_changed(visible);
 }
 
 void BezierWidget::on_view_params_changed(bool visible)

@@ -7,6 +7,7 @@
 #include <QMainWindow>
 
 #include "bezier.hh"
+#include "bezier_object.hh"
 
 class BezierWidget;
 
@@ -19,6 +20,10 @@ public:
 
 signals:
   void view_graph_changed(bool visible);
+  void view_cp_convex_hull_changed(bool visible);
+  void view_cp_bounding_box_changed(bool visible);
+  void view_bezier_bounding_box_changed(bool visible);
+
   void view_params_changed(bool visible);
 
 private slots:
@@ -30,13 +35,18 @@ private slots:
   void on_select_all();
 
   void on_view_graph_changed();
+  void on_view_cp_convex_hull_changed();
+  void on_view_cp_bounding_box_changed();
+  void on_view_bezier_bounding_box_changed();
+
   void on_view_params_changed();
 
 protected:
   void closeEvent(QCloseEvent* event) override;
 
 private:
-  Bezier bezier;
+  Bezier b;
+  BezierObject bezier;
   BezierWidget* bezier_widget;
 
   QMenu* fileMenu;
@@ -44,6 +54,10 @@ private:
   QMenu* viewMenu;
 
   QAction* view_graph_action;
+  QAction* view_cp_convex_hull_action;
+  QAction* view_cp_bounding_box_action;
+  QAction* view_bezier_bounding_box_action;
+
   QAction* view_params_action;
 
   void create_file_menu();
