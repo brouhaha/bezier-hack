@@ -15,7 +15,7 @@ DoubleLineEdit::DoubleLineEdit(int ref,
   value(value)
 {
   on_value_changed(value);
-  connect(this, &DoubleLineEdit::returnPressed,
+  connect(this, &DoubleLineEdit::editingFinished,
 	  this, &DoubleLineEdit::on_return_pressed);
 }
 
