@@ -18,10 +18,10 @@ the control points. I threw this together to make it easy to experiment.
 
 ## Building from source
 
-The program is written in C++ 17, and requires:
+The program is written in C++ 20, and requires:
 
-- Qt 6.2.3 or later
-- GCC g++ 11.2.1 or later
+- Qt 6.5 or later
+- GCC g++ 13.1 or later
 - SCons 4.4.0 or later
 
 To build:
