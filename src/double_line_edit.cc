@@ -3,6 +3,7 @@
 
 #include <string>
 
+#include <QDoubleValidator>
 #include <QString>
 
 #include "double_line_edit.hh"
@@ -14,6 +15,7 @@ DoubleLineEdit::DoubleLineEdit(int ref,
   ref(ref),
   value(value)
 {
+  setValidator(new QDoubleValidator(-100.0, 100.0, -1, this));
   on_value_changed(value);
   connect(this, &DoubleLineEdit::editingFinished,
 	  this, &DoubleLineEdit::on_return_pressed);
