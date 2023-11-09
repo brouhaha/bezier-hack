@@ -18,7 +18,7 @@ DoubleLineEdit::DoubleLineEdit(int ref,
   setValidator(new QDoubleValidator(-100.0, 100.0, -1, this));
   on_value_changed(value);
   connect(this, &DoubleLineEdit::editingFinished,
-	  this, &DoubleLineEdit::on_return_pressed);
+	  this, &DoubleLineEdit::on_editing_finished);
 }
 
 void DoubleLineEdit::on_value_changed(double value)
@@ -26,7 +26,7 @@ void DoubleLineEdit::on_value_changed(double value)
   setText(QString::fromStdString(std::to_string(value)));
 }
 
-void DoubleLineEdit::on_return_pressed()
+void DoubleLineEdit::on_editing_finished()
 {
   std::string s = text().toStdString();
   double new_value = std::atof(s.c_str());

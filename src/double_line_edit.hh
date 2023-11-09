@@ -22,7 +22,7 @@ public slots:
   void on_value_changed(double value);  // received from BezierParams when the bezier changes
 
 private slots:
-  void on_return_pressed();
+  void on_editing_finished();
 
 private:
   int ref;
