@@ -13,10 +13,10 @@
 #include "main_window.hh"
 
 MainWindow::MainWindow():
-  b {{-60.0, -40.0},
-     {-60.0, -80.0},
-     { 60.0,  80.0},
-     { 60.0,  40.0}},
+  b {{-25.0,  -5.0},
+     {-80.0,  80.0},
+     { 80.0, -80.0},
+     { 25.0,   5.0}},
   bezier(b),
   bezier_widget(new BezierWidget(bezier,
 				 this)) // QWidget* parent
