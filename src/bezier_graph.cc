@@ -40,7 +40,7 @@ BezierGraph::BezierGraph(BezierObject& bezier,
   scene()->addItem(&cp_convex_hull_item);
 
   update_bezier_bounding_box();
-  bezier_bounding_box_item.setVisible(false);
+  bezier_bounding_box_item.setVisible(true);
   scene()->addItem(&bezier_bounding_box_item);
 
   scene()->addItem(&bezier_item);

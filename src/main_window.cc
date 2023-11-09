@@ -107,7 +107,7 @@ void MainWindow::create_view_menu()
 
   view_bezier_bounding_box_action = viewMenu->addAction(tr("Bezier bounding box"));
   view_bezier_bounding_box_action->setCheckable(true);
-  view_bezier_bounding_box_action->setChecked(false);
+  view_bezier_bounding_box_action->setChecked(true);
   view_bezier_bounding_box_action->setStatusTip(tr("Toggle viewing of the Bezier bounding_box"));
   connect(view_bezier_bounding_box_action, &QAction::triggered,
 	  this,                            &MainWindow::on_view_bezier_bounding_box_changed);
