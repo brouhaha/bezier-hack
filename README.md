@@ -5,7 +5,7 @@ Copyright 2023 Eric Smith <spacewar@gmail.com>
 SPDX-License-Identifier: GPL-3.0-only
 
 bezier-hack development is hosted at the
-[scangler Github repository](https://github.com/brouhaha/bezier-hack/).
+[bezier-hack Github repository](https://github.com/brouhaha/bezier-hack/).
 
 ## Introduction
 
@@ -34,7 +34,7 @@ or
 
 The resulting executable is `build/posix/bezier-hack`.
 
-To cross-build for Windows, using mingw32 or mingw64:
+To cross-compile for Windows, from a Linux system, using mingw32 or mingw64:
 
 - `scons target=win32`
 
